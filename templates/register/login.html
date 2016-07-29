@@ -1,57 +1,38 @@
+{% extends 'base.html' %}
 {% load staticfiles %}
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
 
-    <link rel="stylesheet" href="{% static 'register/css/reset.css' %}">
+{% block stylesheets %}
+<link href="{% static 'css/login.css' %}" rel="stylesheet">
+{% endblock %}
 
-    <link rel='stylesheet prefetch'
-          href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900|RobotoDraft:400,100,300,500,700,900'>
-    <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+{% block navbar %}
+<li><a href="{% url 'index' %}">Home</a></li>
+{% if request.user.is_authenticated %}
+<li><a href="#">My Drive</a></li>
+<li><a href="#">Library</a></li>
+<li><a href="{% url 'editor' %}">Image Editor</a></li>
+<li><a href="{% url 'logout' %}">Logout</a></li>
+{% else %}
+<li class="active"><a href="{% url 'login' %}">Login</a></li>
+<li><a href="{% url 'register' %}">Register</a></li>
+{% endif %}
+{% endblock %}
 
-    <link rel="stylesheet" href="{% static 'register/css/style.css' %}">
-</head>
+{% block content %}
+<div class="inner">
+    <form class="form-signin" action="" method="POST">
+        {% csrf_token %}
+        <label for="email" class="sr-only">Email address</label>
+        <input type="email" id="email" class="form-control" placeholder="Email address" required autofocus>
 
-<body>
-<div class="pen-title">
-    <span></span>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+    </form>
+
+    {% if message %}
+    <span id="message">{{ message }}</span>
+    {% endif %}
 </div>
-
-<div class="module form-module">
-    <div class="toggle">
-        <i class="fa fa-times fa-pencil"></i>
-        <div class="tooltip">Register</div>
-    </div>
-    <div class="form">
-        <h2>Login to your account</h2>
-        <form action="" method="POST">
-            {% csrf_token %}
-            {% if message %}
-            <label for="">{{ message }}</label>
-            {% endif %}
-            <input type="text" name="username" placeholder="Username"/>
-            <input type="password" name="password" placeholder="Password"/>
-            <button type="submit">Login</button>
-        </form>
-    </div>
-    <div class="form">
-        <h2>Create an account</h2>
-        <form action="{% url 'register' %}" method="POST">
-            {% csrf_token %}
-            <input type="text" name="fname" placeholder="First Name"/>
-            <input type="text" name="lname" placeholder="Last Name"/>
-            <input type="text" name="username" placeholder="Username"/>
-            <input type="password" name="password" placeholder="Password"/>
-            <input type="email" name="email" placeholder="Email Address"/>
-            <input type="tel" name="mobile" placeholder="Mobile Number"/>
-            <button type="submit">Register</button>
-        </form>
-    </div>
-    <div class="cta"><a href="#">Forgot your password?</a></div>
-</div>
-
-<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-<script src="{% static 'register/js/index.js' %}"></script>
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+<!--<link href="{% static 'css/login.css' %}" rel="stylesheet">-->
+{% endblock %}
+
+{% block navbar %}
+<li><a href="{% url 'index' %}">Home</a></li>
+{% if request.user.is_authenticated %}
+<li><a href="#">My Drive</a></li>
+<li><a href="#">Library</a></li>
+<li class="active"><a href="{% url 'editor' %}">Image Editor</a></li>
+<li><a href="{% url 'logout' %}">Logout</a></li>
+{% else %}
+<li><a href="{% url 'login' %}">Login</a></li>
+<li><a href="{% url 'register' %}">Register</a></li>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="inner">
+    <h1>Image Editor</h1>
+</div>
+{% endblock %}

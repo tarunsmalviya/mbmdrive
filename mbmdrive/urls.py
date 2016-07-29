@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('register.urls')),
     url(r'^drive/', include('drive.urls')),
+    url(r'^imeditor/', include('imeditor.urls')),
 ]

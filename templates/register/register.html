@@ -8,10 +8,23 @@
 {% block navbar %}
 <li><a href="{% url 'index' %}">Home</a></li>
 {% if request.user.is_authenticated %}
-<li><a href="#">My Drive</a></li>
-<li><a href="#">Library</a></li>
-<li><a href="{% url 'editor' %}">Image Editor</a></li>
-<li><a href="{% url 'logout' %}">Logout</a></li>
+<li><a href="{% url 'mydrive' %}">My Drive</a></li>
+<li><a href="{% url 'library' %}">Library</a></li>
+<!--<li><a href="{% url 'editor' %}">Image Editor</a></li>-->
+<li>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu"
+                data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="true">
+            {{ request.user.get_full_name }}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+            <li><a>{{ request.user.email }}</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+</li>
 {% else %}
 <li><a href="{% url 'login' %}">Login</a></li>
 <li class="active"><a href="{% url 'register' %}">Register</a></li>
@@ -19,23 +32,24 @@
 {% endblock %}
 
 {% block content %}
-<div class="inner">
+<div class="inner cover">
     <form class="form-signin" action="" method="POST">
         {% csrf_token %}
-        <label for="inputFname" class="sr-only">First name</label>
-        <input type="text" id="inputFname" class="form-control" placeholder="First name" required autofocus>
 
-        <label for="inputLname" class="sr-only">Last name</label>
-        <input type="text" id="inputLname" class="form-control" placeholder="Last name" required autofocus>
+        <label for="id_{{ form.first_name.name }}" class="sr-only">Email address</label>
+        {{ form.first_name }}
 
-        <label for="inputMobile" class="sr-only">Mobile number</label>
-        <input type="tel" id="inputMobile" class="form-control" placeholder="Mobile number" required>
+        <label for="id_{{ form.last_name.name }}" class="sr-only">Email address</label>
+        {{ form.last_name }}
 
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="id_{{ form.mobile.name }}" class="sr-only">Email address</label>
+        {{ form.mobile }}
 
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <label for="id_{{ form.email.name }}" class="sr-only">Email address</label>
+        {{ form.email }}
+
+        <label for="id_{{ form.password.name }}" class="sr-only">Email address</label>
+        {{ form.password }}
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
     </form>

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+<!--<link href="{% static 'css/login.css' %}" rel="stylesheet">-->
+{% endblock %}
+
+{% block navbar %}
+<li><a href="{% url 'index' %}">Home</a></li>
+{% if request.user.is_authenticated %}
+<li><a href="{% url 'mydrive' %}">My Drive</a></li>
+<li class="active"><a href="{% url 'library' %}">Library</a></li>
+<!--<li><a href="{% url 'editor' %}">Image Editor</a></li>-->
+<li>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu"
+                data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="true">
+            {{ request.user.get_full_name }}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+            <li><a>{{ request.user.email }}</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+</li>
+{% else %}
+<li><a href="{% url 'login' %}">Login</a></li>
+<li><a href="{% url 'register' %}">Register</a></li>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="inner cover">
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <div class="thumbnail">
+                <img class="img-responsive" src="{% static 'images/img2.png' %}" alt="" width="300px" height="300px">
+                <div class="caption">
+                    <h5>Cover is a one-page template for building simple and beautiful home
+                        pages.
+                        Download, edit the text,
+                        and add your own fullscreen background photo to make it your own</h5>
+                    <p>...</p>
+                    <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default"
+                                                                                       role="button">Button</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <div class="thumbnail">
+                <img class="img-responsive" src="{% static 'images/img2.png' %}" alt="...">
+                <div class="caption">
+                    <h3>Thumbnail label</h3>
+                    <p>...</p>
+                    <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default"
+                                                                                       role="button">Button</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -8,10 +8,23 @@
 {% block navbar %}
 <li><a href="{% url 'index' %}">Home</a></li>
 {% if request.user.is_authenticated %}
-<li><a href="#">My Drive</a></li>
-<li><a href="#">Library</a></li>
-<li class="active"><a href="{% url 'editor' %}">Image Editor</a></li>
-<li><a href="{% url 'logout' %}">Logout</a></li>
+<li><a href="{% url 'mydrive' %}">My Drive</a></li>
+<li><a href="{% url 'library' %}">Library</a></li>
+<!--<li class="active"><a href="{% url 'editor' %}">Image Editor</a></li>-->
+<li>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu"
+                data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="true">
+            {{ request.user.get_full_name }}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+            <li><a>{{ request.user.email }}</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+</li>
 {% else %}
 <li><a href="{% url 'login' %}">Login</a></li>
 <li><a href="{% url 'register' %}">Register</a></li>
@@ -19,7 +32,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="inner">
+<div class="inner cover">
     <h1>Image Editor</h1>
 </div>
 {% endblock %}

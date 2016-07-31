@@ -1,0 +1,10 @@
+.box-style{margin-bottom:15px; padding:30px; border-radius:4px; border:2px solid #cccccc;}
+.text-box{padding-top:10px;}
+.icon-style{font-size:18px;}
+
+#fileblock{padding:15px; border-radius:4px; border:2px solid #cccccc;}
+
+th {
+    background-color: rgba(59, 64, 69, 0.95);
+    color: white;
+}

@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+<link href="{% static 'bootstrap/css/dataTables.bootstrap.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/index.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+<li><a href="{% url 'index' %}">Home</a></li>
+{% if request.user.is_authenticated %}
+<li class="active"><a href="{% url 'mydrive' %}">My Drive</a></li>
+<li><a href="{% url 'library' %}">Library</a></li>
+<!--<li><a href="{% url 'editor' %}">Image Editor</a></li>-->
+<li>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu"
+                data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="true">
+            {{ request.user.get_full_name }}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+            <li><a>{{ request.user.email }}</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+</li>
+{% else %}
+<li><a href="{% url 'login' %}">Login</a></li>
+<li><a href="{% url 'register' %}">Register</a></li>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="inner cover">
+    <div class="row">
+        <div class="col-md-8 col-lg-4">
+            <div class="panel panel-default" style="height:400px">
+                <div class="panel-body">
+                    {% if message %}
+                    <p class="text-danger" id="messjage"><i class="glyphicon glyphicon-warning-sign"></i>&nbsp;&nbsp;{{
+                        message }}</p>
+                    {% endif %}
+                    <form class="form-signin" action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <label for="id_{{ form.name.name }}" class="sr-only">Name</label>
+                        <div class="form-group">{{ form.name }}</div>
+
+                        <label for="id_{{ form.description.name }}" class="sr-only">Description</label>
+                        <div class="form-group">{{ form.description }}</div>
+
+
+                        <label for="id_{{ form.file.name }}" class="input-group-btn">File</label>
+                        <div class="form-group">{{ form.file }}</div>
+
+                        <button class="btn btn-md btn-primary btn-block" type="submit">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-lg-8">
+            <div id="fileblock">
+                <div class="">
+                    <table id="fileTable" class="table" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for file in file_list %}
+                        <tr class="text-left">
+                            <td>{{file.name}}</td>
+                            <td>{{file.description}}</td>
+                            <td>
+                                <a href="{{ file.file.url }}" title="Download">
+                                    <i class="glyphicon glyphicon-download icon-style"></i>
+                                </a>
+                                <a href="#deleteModal" title="Delete" id="deleteBtn" data-id="{{ file.pk }}"
+                                   data-toggle="modal">
+                                    <i class="glyphicon glyphicon-remove-circle icon-style"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="border:none;">
+                    <h4 class="modal-title" style="color: black;">Do you want to delete?</h4>
+                </div>
+                <div class="modal-body text-center" style="border:none;">
+                    <form action="{% url 'delete_drive_file' %}" method="POST">
+                        {% csrf_token %}
+                        {{ delete_form.file_id }}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block jscripts %}
+<script type="text/javascript" src="{% static 'js/jquery.slimscroll.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/mydrive.js' %}"></script>
+{% endblock %}

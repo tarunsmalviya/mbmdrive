@@ -2,15 +2,30 @@
 {% load staticfiles %}
 
 {% block stylesheets %}
+<link href="{% static 'css/index.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block navbar %}
 <li class="active"><a href="{% url 'index' %}">Home</a></li>
 {% if request.user.is_authenticated %}
-<li><a href="#">My Drive</a></li>
-<li><a href="#">Library</a></li>
-<li><a href="{% url 'editor' %}">Image Editor</a></li>
-<li><a href="{% url 'logout' %}">Logout</a></li>
+<li><a href="{% url 'mydrive' %}">My Drive</a></li>
+<li><a href="{% url 'library' %}">Library</a></li>
+<!--<li><a href="{% url 'editor' %}">Image Editor</a></li>-->
+
+<li>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu"
+                data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="true">
+            {{ request.user.get_full_name }}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+            <li><a>{{ request.user.email }}</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+</li>
 {% else %}
 <li><a href="{% url 'login' %}">Login</a></li>
 <li><a href="{% url 'register' %}">Register</a></li>
@@ -19,11 +34,75 @@
 
 {% block content %}
 <div class="inner cover">
-    <h1 class="cover-heading">Welcome to Mdrive.</h1>
-    <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text,
-        and add your own fullscreen background photo to make it your own.</p>
-    <p class="lead">
-        <a href="#" class="btn btn-lg btn-default">Learn more</a>
-    </p>
+    <div class="hidden-sm hidden-xs">
+        <div class="box-style">
+            <div class="row">
+                <div class="col-md-3 col-lg-3">
+                    <img class="img-responsive img-circle" width="150px" height="150px"
+                         src="{% static 'images/img1.jpg' %}"
+                         alt="">
+                </div>
+                <div class="col-md-9 col-lg-9">
+                    <h4 class="text-right">Cover is a one-page template for building simple and beautiful home
+                        pages.
+                        Download, edit the text,
+                        and add your own fullscreen background photo to make it your own</h4>
+                </div>
+            </div>
+        </div>
+        <div class="box-style">
+            <div class="row">
+                <div class="col-md-9 col-lg-9">
+                    <h4 class="text-left">Cover is a one-page template for building simple and beautiful home pages.
+                        Download, edit the text,
+                        and add your own fullscreen background photo to make it your own</h4>
+                </div>
+                <div class="col-md-3 col-lg-3">
+                    <img class="img-responsive img-circle pull-right" width="150px" height="150px"
+                         src="{% static 'images/img1.jpg' %}"
+                         alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hidden-lg hidden-md">
+
+        <div class="box-style">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <img class="img-responsive img-circle center-block" width="150px" height="150px"
+                         src="{% static 'images/img1.jpg' %}"
+                         alt="">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <h4 class="text-center text-box">Cover is a one-page template for building simple and beautiful home
+                        pages.
+                        Download, edit the text,
+                        and add your own fullscreen background photo to make it your own</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="box-style">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <img class="img-responsive img-circle center-block" width="150px" height="150px"
+                         src="{% static 'images/img1.jpg' %}"
+                         alt="">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <h4 class="text-center text-box">Cover is a one-page template for building simple and beautiful home
+                        pages.
+                        Download, edit the text,
+                        and add your own fullscreen background photo to make it your own</h4>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 {% endblock %}
